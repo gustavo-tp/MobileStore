@@ -1,0 +1,3 @@
+**/*.js
+/.expo
+node_modules
