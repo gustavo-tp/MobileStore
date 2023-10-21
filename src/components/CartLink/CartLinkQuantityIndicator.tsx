@@ -1,5 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 
+import Colors from "@/config/colors";
+
 interface CartLinkQuantityIndicatorProps {
   quantity: number;
 }
@@ -16,7 +18,7 @@ export default function CartLinkQuantityIndicator({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#f00",
+    backgroundColor: Colors.red,
     position: "absolute",
     right: 0,
     width: 12,
@@ -26,7 +28,7 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto_500Medium",
     lineHeight: 12,
     fontSize: 8,
-    color: "#fff",
+    color: Colors.white,
     textAlign: "center",
   },
 });
