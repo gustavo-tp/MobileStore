@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "MobileStore",
-    "slug": "MobileStore",
+    "slug": "mobilestore",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -32,6 +32,15 @@
     "scheme": "com.example.mobilestore",
     "experiments": {
       "tsconfigPaths": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "3239e1cd-cdc5-4e92-bea1-bec1fd6087ac"
+      }
+    },
+    "owner": "gustavo-tp"
   }
 }
