@@ -1,12 +1,15 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Stack, router } from "expo-router";
-import { useEffect, useState } from "react";
-import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
+import { useCallback, useEffect, useState } from "react";
+import { Alert, StyleSheet, View } from "react-native";
 
 import { CartLink } from "@/components/CartLink";
-import ProdutCard from "@/components/ProductCard";
+import ProductsList from "@/components/ProductsList/ProductsList";
+import Colors from "@/config/colors";
+import { useCart } from "@/hooks/cart";
 import api from "@/services/api";
 
-interface Product {
+export interface Product {
   id: number;
   title: string;
   price: number;
@@ -19,28 +22,32 @@ interface Product {
   };
 }
 
-interface Cart {
-  [productId: number]: {
-    quantity: number;
-  };
-}
-
 export default function Products() {
   const [products, setProducts] = useState<Product[]>([]);
-  const [cart, setCart] = useState<Cart>({});
-
-  const cartProductsQuantity = Object.keys(cart).reduce(
-    (quantity, productId) => quantity + cart[Number(productId)].quantity,
-    0,
-  );
+  const { cart, cartProductsQuantity, addItemUnitToCart } = useCart();
 
   useEffect(() => {
-    api<Product[]>("/products")
-      .then((response) => setProducts(response.data))
-      .catch((error) => console.log(error.message));
+    async function fetchProducts() {
+      try {
+        const response = await api<Product[]>("/products");
+        const products = response.data;
+        const stringProducts = JSON.stringify(products);
+
+        await AsyncStorage.setItem("products", stringProducts);
+        setProducts(products);
+      } catch (error) {
+        if (error instanceof Error) {
+          console.log(error.message);
+        } else {
+          console.log("Unexpected error", error);
+        }
+      }
+    }
+
+    fetchProducts();
   }, []);
 
-  const createAddProductToCartAlert = (productId: number) => {
+  const createAddItemUnitToCartAlert = useCallback((productId: number) => {
     const product = products.find((product) => product.id === productId);
 
     let alertMessage = `Tem certeza de que quer adicionar o produto "${product?.title}" no carrinho?`;
@@ -54,30 +61,16 @@ export default function Products() {
         text: "Cancelar",
         style: "cancel",
       },
-      { text: "Apenas adicionar", onPress: () => addProductToCart(productId) },
+      { text: "Apenas adicionar", onPress: () => addItemUnitToCart(productId) },
       {
         text: "Adicionar e ir para o carrinho",
         onPress: () => {
-          addProductToCart(productId);
+          addItemUnitToCart(productId);
           router.push("/cart");
         },
       },
     ]);
-  };
-
-  function addProductToCart(productId: number) {
-    const cartItem = cart[productId] || {};
-    const productQuantity = cartItem?.quantity || 0;
-
-    const updatedCart = {
-      ...cart,
-      [productId]: {
-        quantity: productQuantity + 1,
-      },
-    };
-
-    setCart(updatedCart);
-  }
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -86,27 +79,17 @@ export default function Products() {
           title: "Produtos",
           headerRight: () => (
             <CartLink.Root>
-              <CartLink.QuantityIndicator quantity={cartProductsQuantity} />
+              {cartProductsQuantity > 0 && (
+                <CartLink.QuantityIndicator quantity={cartProductsQuantity} />
+              )}
             </CartLink.Root>
           ),
         }}
       />
-      <ScrollView
-        contentContainerStyle={{
-          paddingVertical: 12,
-          paddingHorizontal: 8,
-          rowGap: 8,
-          minWidth: "100%",
-        }}
-      >
-        {products.map((product) => (
-          <ProdutCard
-            key={product.id}
-            product={product}
-            handleAddToCartButtonPress={createAddProductToCartAlert}
-          />
-        ))}
-      </ScrollView>
+      <ProductsList
+        products={products}
+        handleAddToCartButtonPress={createAddItemUnitToCartAlert}
+      />
     </View>
   );
 }
@@ -114,7 +97,7 @@ export default function Products() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: Colors.white,
     alignItems: "center",
     justifyContent: "center",
   },
