@@ -11,10 +11,11 @@
 Esse projeto está sendo desenvolvido com as seguintes tecnologias:
 
 - [React Native](https://reactnative.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
 - [Expo](https://expo.dev/)
 
 
-## 💻 Projeto
+## 📱 Projeto
 **MobileStore é um aplicativo que simula uma loja, possuindo telas de catálogo de produtos e carrinho de compras**
 
 
@@ -38,6 +39,11 @@ npm install
 
 # Rodar
 expo start
+```
+
+### Para executar os testes automatizados, rodar o seguinte comando no terminal
+```sh
+npm test
 ```
 
 ### Rodar expo no celular
