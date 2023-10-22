@@ -56,11 +56,17 @@ const CartItem = ({
                 ...styles.changeQuantityLeftButton,
               }}
               onPress={() => handleRemoveItemUnitButtonPress(product.id)}
+              aria-label={`remove-item-unit-button-${product.id}`}
             >
               <FontAwesome name="minus" size={10} color={Colors.gray[900]} />
             </TouchableOpacity>
             <View style={styles.itemQuantityContainer}>
-              <Text style={styles.itemQuantity}>{itemQuantity}</Text>
+              <Text
+                style={styles.itemQuantity}
+                aria-label={`item-quantity-${product.id}`}
+              >
+                {itemQuantity}
+              </Text>
             </View>
             <TouchableOpacity
               style={{
@@ -68,13 +74,17 @@ const CartItem = ({
                 ...styles.changeQuantityRightButton,
               }}
               onPress={() => handleAddItemUnitButtonPress(product.id)}
+              aria-label={`add-item-unit-button-${product.id}`}
             >
               <FontAwesome name="plus" size={10} color={Colors.gray[900]} />
             </TouchableOpacity>
           </View>
         </View>
       </View>
-      <TouchableOpacity onPress={() => handleRemoveItemButtonPress(product.id)}>
+      <TouchableOpacity
+        onPress={() => handleRemoveItemButtonPress(product.id)}
+        aria-label={`remove-item-button-${product.id}`}
+      >
         <FontAwesome name="trash" size={18} color={Colors.red} />
       </TouchableOpacity>
     </View>

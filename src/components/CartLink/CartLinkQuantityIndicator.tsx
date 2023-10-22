@@ -11,7 +11,9 @@ export default function CartLinkQuantityIndicator({
 }: CartLinkQuantityIndicatorProps) {
   return (
     <View style={styles.container}>
-      <Text style={styles.indicator}>{quantity}</Text>
+      <Text style={styles.indicator} aria-label="quantity-indicator">
+        {quantity}
+      </Text>
     </View>
   );
 }
