@@ -50,3 +50,9 @@ npm test
 - Intalar [Expo Go](https://expo.dev/client) em um dispositivo físico
 - Abrir expo no celular
 - Ler QR code e executar o app
+
+### Telas
+<div align="center">
+    <img alt="Products List Page" title="Products List" src=".github\screenshot_products_list.jpg?raw=true" width="200px" />
+    <img alt="Cart Page" title="Cart Page" src=".github\screenshot_car.jpg?raw=true" width="200px" />
+</div>
