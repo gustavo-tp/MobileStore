@@ -38,18 +38,18 @@ cd MobileStore
 npm install
 
 # Rodar
-expo start
-```
-
-### Para executar os testes automatizados, rodar o seguinte comando no terminal
-```sh
-npm test
+npx expo start
 ```
 
 ### Rodar expo no celular
 - Intalar [Expo Go](https://expo.dev/client) em um dispositivo físico
 - Abrir expo no celular
 - Ler QR code e executar o app
+
+### Para executar os testes automatizados, rodar o seguinte comando no terminal
+```sh
+npm test
+```
 
 ### Telas
 <div align="center">
